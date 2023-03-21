@@ -1,8 +1,14 @@
-src = kernel.S \
+src_asm = kernel.S \
 	  boot.S \
 	  gdt.S \
 	  multiboot.S \
 
+src_c = print_stack.c
+
+vpath %.c $(src_dir)
+vpath %.S $(src_dir)
+
+src_dir = src
 build_dir = build
 iso_path := iso
 boot_path := ${iso_path}/boot
@@ -18,35 +24,34 @@ LDFLAGS := -m elf_i386 -T ${ldfile}
 
 AS := nasm
 ASFLAGS := -f elf32
+CC := gcc
+CCFLAGS := -m32
 
 MKRESCUE := grub-mkrescue
 
-objs := $(addprefix ${build_dir}/, ${src:.S=.o})
+objs_asm := $(addprefix ${build_dir}/, ${src_asm:.S=.o})
+objs_c := $(addprefix ${build_dir}/, ${src_c:.c=.o})
 
+objs := ${objs_asm} ${objs_c}
 
 .PHONY: all
-all: debile build link iso
-
-var:
-	export PREFIX="$HOME/Cross-Compiler-KFS42"
-	export TARGET=i686-elf
-	export PATH="$PREFIX/bin:$PATH"
-
-
-debile:
-	gcc -m32  -c print_stack.c -o build/print_stack.o
+all: build link iso
 
 .PHONY: build
-build: ${objs}
+build: ${objs_asm} ${objs_c}
 	@printf "\033[0;36m0bject file created\033[m\n"
 
-${build_dir}/%.o: %.S
+${build_dir}/%.o: ${src_dir}/%.S
 	@mkdir -p ${build_dir}
 	${AS} ${ASFLAGS} $< -o $@
 
+${build_dir}/%.o: ${src_dir}/%.c
+	@mkdir -p ${build_dir}
+	${CC} ${CCFLAGS} -c $< -o $@
+
 .PHONY: link
 link: build ${ldfile}
-	${LD} ${LDFLAGS} ${objs} build/print_stack.o  -o ${bin}
+	${LD} ${LDFLAGS} ${objs_asm} ${objs_c} -o ${bin}
 	@printf "\033[0;34mLinking completed\033[m\n"
 
 
