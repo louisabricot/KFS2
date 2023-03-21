@@ -1,7 +1,7 @@
 # Kernel From Scratch - GDT & STACK
 
 This is the second step in the *Kernel From Scratch* journey!
-It involves creating a Global Descriptor Table (GDT) and integrating it to our Kernel.
+It involves creating a Global Descriptor Table (GDT) and integrating it to our kernel.
 
 The GDT must be set at address 0x800 and contain:
 - a kernel code, data and stack
@@ -31,7 +31,7 @@ git clone https://github.com/louisabricot/KFS2.git
 2. Build the ISO
 
 ```sh
-cd KFS
+cd KFS2
 make 
 ```
 
