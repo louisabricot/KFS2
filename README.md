@@ -36,7 +36,7 @@ make
 ```
 
 3. (42 only)
-[You'll need a cross-compiler](/docs/Cross-Compiler.md)
+[You'll need a cross-compiler](Cross-Compiler.md)
 
 4. Run it with qemu
 
