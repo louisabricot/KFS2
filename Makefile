@@ -1,5 +1,4 @@
-src_asm = kernel.S \
-	  boot.S \
+src_asm = boot.S \
 	  gdt.S \
 	  multiboot.S \
 

@@ -4,13 +4,16 @@ section .text
 global start
 global stack_top
 
-extern main
+extern print_stack
 extern init_gdt
 
 start:
+	pusha
 	mov esp, stack_top	    ;set stack pointer
 	call init_gdt
-	call main
+	push stack_top
+	call print_stack
+	popa
 	hlt			            ;halt the CPU
 
 section .bss

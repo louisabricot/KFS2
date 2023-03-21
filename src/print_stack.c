@@ -1,8 +1,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-
-
 uint8_t return_ascii(uint8_t nbr)
 {
 	if (nbr < 10)
