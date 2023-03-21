@@ -1,3 +1,6 @@
+
+extern print_stack
+
 section .text
 global main:
 
@@ -6,7 +9,8 @@ COLOR equ 0x0f
 
 main:
 	mov ebx, hello
-	call print_screen
+	call print_stack
+	;call print_screen
 	ret 
 hello:
 	db "Hello, kernel! You can use the command 'stack' to print the stack!", 0x00

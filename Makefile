@@ -25,7 +25,16 @@ objs := $(addprefix ${build_dir}/, ${src:.S=.o})
 
 
 .PHONY: all
-all: build link iso
+all: debile build link iso
+
+var:
+	export PREFIX="$HOME/Cross-Compiler-KFS42"
+	export TARGET=i686-elf
+	export PATH="$PREFIX/bin:$PATH"
+
+
+debile:
+	gcc -m32  -c print_stack.c -o build/print_stack.o
 
 .PHONY: build
 build: ${objs}
@@ -37,7 +46,7 @@ ${build_dir}/%.o: %.S
 
 .PHONY: link
 link: build ${ldfile}
-	${LD} ${LDFLAGS} ${objs} -o ${bin}
+	${LD} ${LDFLAGS} ${objs} build/print_stack.o  -o ${bin}
 	@printf "\033[0;34mLinking completed\033[m\n"
 
 
